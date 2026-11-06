@@ -33,12 +33,12 @@ public class SmartLabDbContext : DbContext
             entity.Property(e => e.MotherId);
             entity.HasOne(e => e.Strain).WithMany(e => e.Animals).HasForeignKey(e => e.StrainId);
             entity.HasOne(e => e.Cage).WithMany(e => e.Animals).HasForeignKey(e => e.CageId);
-            entity.HasOne(e => e.Father).WithMany().HasForeignKey(e => e.FatherId);
-            entity.HasOne(e => e.Mother).WithMany().HasForeignKey(e => e.MotherId);
-            entity.HasMany(e => e.MedicalRecords).WithOne(e => e.Animal).HasForeignKey(e => e.AnimalId);
-            entity.HasMany(e => e.BreedingRecords).WithOne(e => e.Male).HasForeignKey(e => e.MaleId);
-            entity.HasMany(e => e.InbreedingAnalyses).WithOne(e => e.Male).HasForeignKey(e => e.MaleId);
-            entity.HasMany(e => e.InbreedingAnalyses).WithOne(e => e.Female).HasForeignKey(e => e.FemaleId);
+            entity.HasOne(e => e.Father).WithMany().HasForeignKey(e => e.FatherId).OnDelete(DeleteBehavior.NoAction);
+            entity.HasOne(e => e.Mother).WithMany().HasForeignKey(e => e.MotherId).OnDelete(DeleteBehavior.NoAction);
+            entity.HasMany(e => e.MedicalRecords).WithOne(e => e.Animal).HasForeignKey(e => e.AnimalId).OnDelete(DeleteBehavior.Cascade);
+            entity.HasMany(e => e.BreedingRecords).WithOne(e => e.Male).HasForeignKey(e => e.MaleId).OnDelete(DeleteBehavior.NoAction);
+            entity.HasMany(e => e.InbreedingAnalysesAsMale).WithOne(e => e.Male).HasForeignKey(e => e.MaleId).OnDelete(DeleteBehavior.NoAction);
+            entity.HasMany(e => e.InbreedingAnalysesAsFemale).WithOne(e => e.Female).HasForeignKey(e => e.FemaleId).OnDelete(DeleteBehavior.NoAction);
         });
 
         // MedicalRecord entity configuration
@@ -67,7 +67,7 @@ public class SmartLabDbContext : DbContext
             entity.HasKey(e => e.Id);
             entity.Property(e => e.MaleId).IsRequired();
             entity.Property(e => e.FemaleId).IsRequired();
-            entity.Property(e => e.Score).IsRequired();
+            entity.Property(e => e.Score).HasColumnType("decimal(10,8)").IsRequired();
             entity.Property(e => e.Methodology).IsRequired();
             entity.Property(e => e.RiskFlag).IsRequired();
         });

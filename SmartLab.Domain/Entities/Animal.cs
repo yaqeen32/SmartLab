@@ -22,5 +22,6 @@ public class Animal
 
     public ICollection<MedicalRecord> MedicalRecords { get; set; } = new List<MedicalRecord>();
     public ICollection<BreedingRecord> BreedingRecords { get; set; } = new List<BreedingRecord>();
-    public ICollection<InbreedingAnalysis> InbreedingAnalyses { get; set; } = new List<InbreedingAnalysis>();
+    public ICollection<InbreedingAnalysis> InbreedingAnalysesAsMale { get; set; } = new List<InbreedingAnalysis>();
+    public ICollection<InbreedingAnalysis> InbreedingAnalysesAsFemale { get; set; } = new List<InbreedingAnalysis>();
 }
